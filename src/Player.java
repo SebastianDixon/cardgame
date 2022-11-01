@@ -8,4 +8,8 @@ public class Player {
     public int getPlayerId() {
         return playerId;
     }
+
+    public String toString() {
+        return "player " + getPlayerId() + " ";
+    }
 }
