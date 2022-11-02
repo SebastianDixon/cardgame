@@ -1,7 +1,7 @@
-public class CardDeck {
+public class Deck {
     private final int deckId;
 
-    public CardDeck() {
+    public Deck() {
         deckId = Generator.getId();
     }
 

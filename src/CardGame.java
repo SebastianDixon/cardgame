@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 public class CardGame {
     private static final ArrayList<Integer> players = new ArrayList<>();
+    private static final ArrayList<Integer> decks = new ArrayList<>();
+
 
     private static File get_text(String fileName, int n) throws NullPointerException, IOException {
         try {
@@ -31,7 +33,7 @@ public class CardGame {
         return null;
     }
 
-    private static String get_filename() throws IOException {
+    private static String get_filename() throws IOException{
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Deck address?:");
@@ -41,6 +43,18 @@ public class CardGame {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static void get_decks() throws IOException {
+        int n = create_players();
+        String add = get_filename();
+        File deck = get_text(add, n);
+
+        for (int i = 0; i < n; i++) {
+            Deck d1 = new Deck();
+            decks.add(d1.getDeckId());
+            System.out.println("deck " + d1.getDeckId());
+        }
     }
 
     private static int get_players() throws IOException, NumberFormatException {
@@ -73,8 +87,6 @@ public class CardGame {
     }
 
     public static void main(String[] args) throws IOException {
-        int n = create_players();
-        String add = get_filename();
-        File deck = get_text(add, n);
+        get_decks();
     }
 }
