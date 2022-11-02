@@ -2,7 +2,7 @@ public class Deck {
     private final int deckId;
 
     public Deck() {
-        deckId = Generator.getId();
+        deckId = DeckGenerator.getId();
     }
 
     public int getDeckId() {

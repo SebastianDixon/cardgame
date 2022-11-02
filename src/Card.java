@@ -2,7 +2,7 @@ public class Card {
     private final int cardId;
 
     public Card() {
-        cardId = Generator.getId();
+        cardId = PlayerGenerator.getId();
     }
 
     public int getCardId() {

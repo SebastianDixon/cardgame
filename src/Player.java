@@ -2,7 +2,7 @@ public class Player {
     private final int playerId;
 
     public Player() {
-        playerId = Generator.getId();
+        playerId = PlayerGenerator.getId();
     }
 
     public int getPlayerId() {
