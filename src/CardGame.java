@@ -86,6 +86,10 @@ public class CardGame {
         return 0;
     }
 
+    private static void deal_cards() {
+        // allocation decks cards from text file in queue
+    }
+
     public static void main(String[] args) throws IOException {
         get_decks();
     }
