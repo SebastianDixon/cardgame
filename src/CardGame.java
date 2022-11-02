@@ -13,7 +13,7 @@ public class CardGame {
 
             try {
                 while ((st = br.readLine()) != null) {
-                    count = count++;
+                    count = count + 1;
                 }
             } catch (IOException e) {
                 System.out.println("Deck file empty");
@@ -28,13 +28,24 @@ public class CardGame {
         } catch (NullPointerException e) {
             System.out.println("Invalid deck file");
         }
+        return null;
+    }
 
+    private static String get_filename() throws IOException {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Deck address?:");
+            return reader.readLine();
+        } catch (IOException e) {
+            System.out.println("Invalid Deck address");
+            e.printStackTrace();
+        }
         return null;
     }
 
     private static int get_players() throws IOException, NumberFormatException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         System.out.println("How many players?:");
         String str = reader.readLine();
         try {
@@ -46,7 +57,7 @@ public class CardGame {
         return 0;
     }
 
-    private static void create_players() throws IOException {
+    private static int create_players() throws IOException {
         try {
             int numberPlayer = get_players();
             for (int i = 0; i < numberPlayer; i++) {
@@ -54,14 +65,16 @@ public class CardGame {
                 players.add(player.getPlayerId());
                 System.out.println("player " + player.getPlayerId());
             }
+            return numberPlayer;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return 0;
     }
 
     public static void main(String[] args) throws IOException {
-        create_players();
-
+        int n = create_players();
+        String add = get_filename();
+        File deck = get_text(add, n);
     }
 }
