@@ -12,6 +12,14 @@ public class Deck {
         cards.add(n);
     }
 
+    public String toString() {
+        String cards = "";
+        for (Integer i: this.cards) {
+            cards = cards + i;
+        }
+        return cards;
+    }
+
     public int getDeckId() {
         return deckId;
     }

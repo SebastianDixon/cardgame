@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class CardGame {
-    private static final ArrayList<Integer> players = new ArrayList<>();
-    private static final ArrayList<Integer> decks = new ArrayList<>();
+    private static final ArrayList<Player> players = new ArrayList<>();
+    private static final ArrayList<Deck> decks = new ArrayList<>();
 
 
     private static File get_text(String fileName, int n) throws NullPointerException, IOException {
@@ -45,16 +45,14 @@ public class CardGame {
         return null;
     }
 
-    private static void get_decks() throws IOException {
+    private static int get_decks() throws IOException {
         int n = create_players();
-        String add = get_filename();
-        File deck = get_text(add, n);
 
-        for (int i = 0; i < n; i++) {
-            Deck d1 = new Deck();
-            decks.add(d1.getDeckId());
-            System.out.println("deck " + d1.getDeckId());
+        for (int i = 0;i < n; i++) {
+            decks.add(new Deck());
         }
+
+        return n;
     }
 
     private static int get_players() throws IOException, NumberFormatException {
@@ -75,9 +73,7 @@ public class CardGame {
         try {
             int numberPlayer = get_players();
             for (int i = 0; i < numberPlayer; i++) {
-                Player player = new Player();
-                players.add(player.getPlayerId());
-                System.out.println("player " + player.getPlayerId());
+                players.add(new Player());
             }
             return numberPlayer;
         } catch (IOException e) {
@@ -86,11 +82,27 @@ public class CardGame {
         return 0;
     }
 
-    private static void deal_cards() {
+    private static void deal_cards() throws IOException {
         // allocation decks cards from text file in queue
+        int n = get_decks();
+        String deckFile = get_filename();
+        File validDeck = get_text(deckFile, n);
+
+        BufferedReader br = new BufferedReader(new FileReader(validDeck));
+        String st;
+
+        // deal the cards
+
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < n; i++) {
+                int cardinality = Integer.parseInt(br.readLine());
+                decks.get(i).addCard(cardinality);
+                System.out.println(decks.get(i).toString());
+            }
+        }
     }
 
     public static void main(String[] args) throws IOException {
-        get_decks();
+        deal_cards();
     }
 }
