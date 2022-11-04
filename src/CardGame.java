@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class CardGame {
     private static final ArrayList<Player> players = new ArrayList<>();
@@ -60,6 +61,7 @@ public class CardGame {
 
         System.out.println("How many players?:");
         String str = reader.readLine();
+        // check positive integer
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException e) {
@@ -83,23 +85,31 @@ public class CardGame {
     }
 
     private static void deal_cards() throws IOException {
-        // allocation decks cards from text file in queue
         int n = get_decks();
         String deckFile = get_filename();
         File validDeck = get_text(deckFile, n);
-
-        BufferedReader br = new BufferedReader(new FileReader(validDeck));
-        String st;
-
-        // deal the cards
+        assert validDeck != null;
+        Scanner sc = new Scanner(validDeck);
 
         for (int j = 0; j < 4; j++) {
-            for (int i = 0; i < n; i++) {
-                int cardinality = Integer.parseInt(br.readLine());
-                decks.get(i).addCard(cardinality);
-                System.out.println(decks.get(i).toString());
+            for (Player p: players) {
+                int num = Integer.parseInt(sc.nextLine());
+                p.addCard(num);
             }
         }
+
+        while (sc.hasNextLine()) {
+            for (Deck d: decks) {
+                int num = Integer.parseInt(sc.nextLine());
+                d.addCard(num);
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("player" + players.get(i).getPlayerId() + ":" + players.get(i).toString());
+            System.out.println("deck" + decks.get(i).getDeckId() + ":" + decks.get(i).toString());
+        }
+
     }
 
     public static void main(String[] args) throws IOException {

@@ -15,7 +15,7 @@ public class Deck {
     public String toString() {
         String cards = "";
         for (Integer i: this.cards) {
-            cards = cards + i;
+            cards = cards + i + " ";
         }
         return cards;
     }
