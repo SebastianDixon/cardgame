@@ -3,23 +3,23 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CardGame {
-    private static final ArrayList<Player> players = new ArrayList<>();
-    private static final ArrayList<Deck> decks = new ArrayList<>();
+    public static final ArrayList<Player> players = new ArrayList<>();
+    public static final ArrayList<Deck> decks = new ArrayList<>();
 
-    private static void create_players(int n) {
+    public static void create_players(int n) {
         for (int i = 0; i < n; i++) {
             players.add(new Player());
         }
     }
 
-    private static void create_decks(int n) {
+    public static void create_decks(int n) {
         for (int i = 0;i < n; i++) {
             decks.add(new
                     Deck());
         }
     }
 
-    private static String get_file() throws IOException{
+    public static String get_file() throws IOException{
         try {
             var reader = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Deck address:");
@@ -31,7 +31,7 @@ public class CardGame {
         return null;
     }
 
-    private static boolean validate_deck(String s, int n) {
+    public static boolean validate_deck(String s, int n) {
         var f = new File(s);
         try {
             var br = new BufferedReader(new FileReader(f));
@@ -54,7 +54,7 @@ public class CardGame {
         return false;
     }
 
-    private static int get_players() throws IOException, NumberFormatException {
+    public static int get_players() throws IOException, NumberFormatException {
         var reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Number of players:");
         String str = reader.readLine();
@@ -68,7 +68,7 @@ public class CardGame {
         return 0;
     }
 
-    private static void deal_cards(String s, int n) throws IOException {
+    public static void deal_cards(String s, int n) throws IOException {
         // must pass file parameter
         File f = new File(s);
         Scanner sc = new Scanner(f);
@@ -94,7 +94,7 @@ public class CardGame {
 
     }
 
-    private static void setup() throws IOException {
+    public static void setup() throws IOException {
         String s = get_file();
         int n = get_players();
         boolean b = validate_deck(s, n);
