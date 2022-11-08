@@ -1,0 +1,113 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class CardGame {
+    private static final ArrayList<Player> players = new ArrayList<>();
+    private static final ArrayList<Deck> decks = new ArrayList<>();
+
+    private static void create_players(int n) {
+        for (int i = 0; i < n; i++) {
+            players.add(new Player());
+        }
+    }
+
+    private static void create_decks(int n) {
+        for (int i = 0;i < n; i++) {
+            decks.add(new
+                    Deck());
+        }
+    }
+
+    private static String get_file() throws IOException{
+        try {
+            var reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Deck address:");
+            return reader.readLine();
+        } catch (IOException e) {
+            System.out.println("Invalid Deck address");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static boolean validate_deck(String s, int n) {
+        var f = new File(s);
+        try {
+            var br = new BufferedReader(new FileReader(f));
+            int count = 0;
+            String st;
+
+            try {
+                while ((st = br.readLine()) != null) {
+                    count = count + 1;
+                }
+            } catch (IOException e) {
+                System.out.println("Deck file empty");
+            }
+
+            return count == 8 * n;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static int get_players() throws IOException, NumberFormatException {
+        var reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Number of players:");
+        String str = reader.readLine();
+        // check positive integer
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            System.out.println("invalid integer");
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private static void deal_cards(String s, int n) throws IOException {
+        // must pass file parameter
+        File f = new File(s);
+        Scanner sc = new Scanner(f);
+
+        for (int j = 0; j < 4; j++) {
+            for (Player p : players) {
+                int num = Integer.parseInt(sc.nextLine());
+                p.addCard(num);
+            }
+        }
+
+        while (sc.hasNextLine()) {
+            for (Deck d : decks) {
+                int num = Integer.parseInt(sc.nextLine());
+                d.addCard(num);
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("player" + players.get(i).getPlayerId() + '\t' + players.get(i).toString());
+            System.out.println("deck" + decks.get(i).getDeckId() + '\t' + decks.get(i).toString());
+        }
+
+    }
+
+    private static void setup() throws IOException {
+        String s = get_file();
+        int n = get_players();
+        boolean b = validate_deck(s, n);
+        if (b) {
+            create_players(n);
+            create_decks(n);
+            deal_cards(s, n);
+        } else {
+            System.out.println("Invalid deck");
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        setup();
+    }
+}

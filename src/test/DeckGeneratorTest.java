@@ -1,5 +1,5 @@
 package test;
-import main.Deck;
+import Deck;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
