@@ -1,3 +1,5 @@
+package main;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -5,7 +7,6 @@ import java.util.Scanner;
 public class CardGame {
     private static final ArrayList<Player> players = new ArrayList<>();
     private static final ArrayList<Deck> decks = new ArrayList<>();
-
 
     private static File get_text(String fileName, int n) throws NullPointerException, IOException {
         try {
@@ -106,8 +107,8 @@ public class CardGame {
         }
 
         for (int i = 0; i < n; i++) {
-            System.out.println("player" + players.get(i).getPlayerId() + ":" + players.get(i).toString());
-            System.out.println("deck" + decks.get(i).getDeckId() + ":" + decks.get(i).toString());
+            System.out.println("player" + players.get(i).getPlayerId() + '\t' + players.get(i).toString());
+            System.out.println("deck" + decks.get(i).getDeckId() + '\t' + decks.get(i).toString());
         }
 
     }

@@ -1,17 +1,17 @@
+package main;
+
 import java.util.ArrayList;
 
-public class Player {
-    private final int playerId;
+public class Deck {
+    private final int deckId;
     private final ArrayList<Integer> cards = new ArrayList<>();
 
-    public Player() {
-        playerId = PlayerGenerator.getId();
+    public Deck() {
+        deckId = DeckGenerator.getId();
     }
 
-    public void addCard(int n) { cards.add(n); }
-
-    public int getPlayerId() {
-        return playerId;
+    public void addCard(int n) {
+        cards.add(n);
     }
 
     public String toString() {
@@ -20,5 +20,9 @@ public class Player {
             cards = cards + i + " ";
         }
         return cards;
+    }
+
+    public int getDeckId() {
+        return deckId;
     }
 }
