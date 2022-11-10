@@ -107,6 +107,23 @@ public class CardGame {
         }
     }
 
+    public static void pickup_card(Player p) {
+        for (Deck d: decks) {
+            if (d.getDeckId() == p.getPlayerId()) {
+                p.addCard(d.get_cards().get(0));
+            }
+        }
+    }
+
+    public static void remove_card(Player p) {
+        int n = p.remove_card();
+        for (Deck d: decks) {
+            if (d.getDeckId() == p.getPlayerId() + 1) {
+                d.addCard(n);
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         setup();
     }

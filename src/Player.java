@@ -14,6 +14,18 @@ public class Player {
         return playerId;
     }
 
+    public int remove_card() {
+        int removed = 0;
+        for (int i = 0; i < 4; i++) {
+            if (cards.get(i) != playerId) {
+                removed = cards.get(i);
+                cards.remove(i);
+                break;
+            }
+        }
+        return removed;
+    }
+
     public String toString() {
         String cards = "";
         for (Integer i: this.cards) {
