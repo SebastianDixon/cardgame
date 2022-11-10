@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CardGame {
+    private volatile boolean gameOver = false;
+
     public static final ArrayList<Player> players = new ArrayList<>();
+
     public static final ArrayList<Deck> decks = new ArrayList<>();
 
     public static void create_players(int n) {
@@ -21,14 +24,14 @@ public class CardGame {
         }
     }
 
-    public static String get_file() throws IOException{
+    public static String get_file() {
         try {
             var reader = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Deck address:");
             return reader.readLine();
         } catch (IOException e) {
             System.out.println("Invalid Deck address");
-            e.printStackTrace();
+            System.exit(1);
         }
         return null;
     }
