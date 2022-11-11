@@ -4,13 +4,33 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Cardgame class.
+ * This class is where all the rules of the card gane are encoded
+ * 
+ * @author Sebastian Dixon and Joshua Adebayo
+ */
 public class CardGame {
+    // Volatile so value can be different when on diffrent threads
     private volatile boolean gameOver = false;
+
+    /**
+     * Using ArrayLists so we can add and remove items from the list.
+     * Made to be public static final so they can be accessed from outside the class
+     * however,
+     * their contents can't be changed.
+     */
 
     public static final ArrayList<Player> players = new ArrayList<>();
 
     public static final ArrayList<Deck> decks = new ArrayList<>();
 
+    /**
+     * This method has been made to create a player/players and add them to the
+     * players ArrayList
+     * 
+     * @param n The number of players
+     */
     public static void create_players(int n) {
         for (int i = 0; i < n; i++) {
             players.add(new Player());
@@ -18,9 +38,8 @@ public class CardGame {
     }
 
     public static void create_decks(int n) {
-        for (int i = 0;i < n; i++) {
-            decks.add(new
-                    Deck());
+        for (int i = 0; i < n; i++) {
+            decks.add(new Deck());
         }
     }
 
@@ -113,7 +132,7 @@ public class CardGame {
     }
 
     public static void pickup_card(Player p) {
-        for (Deck d: decks) {
+        for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId()) {
                 p.addCard(d.get_cards().get(0));
             }
@@ -122,7 +141,7 @@ public class CardGame {
 
     public static void remove_card(Player p) {
         int n = p.remove_card();
-        for (Deck d: decks) {
+        for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId() + 1) {
                 d.addCard(n);
             }
