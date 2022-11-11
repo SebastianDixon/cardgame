@@ -17,8 +17,8 @@ public class Player extends Thread {
     private File player_file;
 
     public void run() {
-        logPlayer("Player " + this.playerId + " has joined the game");
-        logPlayer("player " + this.playerId + " initial hand is " + this);
+        //logPlayer("Player " + this.playerId + " has joined the game");
+        //logPlayer("player " + this.playerId + " initial hand is " + this);
         boolean won = checkWon();
     }
 
@@ -87,10 +87,12 @@ public class Player extends Thread {
         }
         return cards;
     }
-
+    /*
     private void logPlayer(String s) {
         System.out.println(s);
         Logger.writeNewLine(player_file, s);
     }
+
+     */
 }
 
