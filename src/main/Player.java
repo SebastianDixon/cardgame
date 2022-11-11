@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 /**
  * Player class.
- * This class generates a Player, which has their own unique ID.
- * There's an arraylist of cards and methods to add or remove cards.
+ * This class generates a Player, which has its own unique ID.
+ * There's an ArrayList of cards and methods to add or remove cards.
  * 
  * @author Sebastian Dixon and Joshua Adebayo
  */
@@ -27,7 +27,7 @@ public class Player {
     }
 
     /**
-     * This is a method to add items to the ArrayList cards ArrayList
+     * This is a method to add items to the ArrayList cards.
      * 
      * @param n The number of cards being added, this must be an integer
      */
