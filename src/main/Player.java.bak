@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 import java.util.ArrayList;
+
 /**
  * Player class.
  * This class generates a Player, which has its own unique ID.
@@ -10,20 +11,31 @@ import java.util.ArrayList;
  * @author Sebastian Dixon and Joshua Adebayo
  */
 
-public class Player extends Thread {
+public class Player extends Thread{
     private int playerId;
     private ArrayList<Integer> cards = new ArrayList<>();
     private volatile boolean gameOver = false;
     private File player_file;
 
+    /**
+     * This is a constructor for a Player.
+     * playerID is set in the PlayerGenerator class and is assigned in this
+     * constructor
+     */
+
+    public Player() {
+        playerId = PlayerGenerator.getId();
+        player_file = new File("game_files/player" + playerId + "_output.txt");
+    }
+
     public void run() {
-        //logPlayer("Player " + this.playerId + " has joined the game");
-        //logPlayer("player " + this.playerId + " initial hand is " + this);
+        logPlayer("Player " + this.playerId + " has joined the game");
+        logPlayer("player " + this.playerId + " initial hand is " + this);
         boolean won = checkWon();
     }
 
     public boolean checkWon() {
-        for (int i : cards) {
+        for (int i: cards) {
             if (i != this.getPlayerId()) {
                 return false;
             }
@@ -33,7 +45,7 @@ public class Player extends Thread {
 
     /**
      * This is a method to add items to the ArrayList cards.
-     *
+     * 
      * @param n The number of cards being added, this must be an integer
      */
 
@@ -43,7 +55,7 @@ public class Player extends Thread {
 
     /**
      * This is a method to get a Players ID
-     *
+     * 
      * @return A players unique ID
      */
     public int getPlayerId() {
@@ -52,7 +64,7 @@ public class Player extends Thread {
 
     /**
      * This is a method to remove a card from the cards ArrayList
-     *
+     * 
      * @return the card that is removed is outputted
      */
 
@@ -75,7 +87,7 @@ public class Player extends Thread {
 
     /**
      * ToString to output the imporant data within a class,
-     *
+     * 
      * @return All the cards are returned but as strings
      */
 
@@ -87,12 +99,10 @@ public class Player extends Thread {
         }
         return cards;
     }
-    /*
+
     private void logPlayer(String s) {
         System.out.println(s);
         Logger.writeNewLine(player_file, s);
     }
-
-     */
 }
 

@@ -22,4 +22,16 @@ public class PlayerTest {
         p2.addCard(c2);
         assertEquals("1 2 ", p2.toString());
     }
+
+    @Test
+    void TestWinningCondition() {
+        var p = new Player();
+        p.addCard(1);
+        p.addCard(1);
+        p.addCard(1);
+        p.addCard(1);
+
+        boolean won = p.checkWon();
+        assertEquals(won, true);
+    }
 }
