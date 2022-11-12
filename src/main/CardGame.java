@@ -29,20 +29,30 @@ public class CardGame {
      * This method has been made to create a player/players and add them to the
      * players ArrayList
      * 
-     * @param n The number of players
+     * @param n The number of players being created
      */
     public static void create_players(int n) {
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) { // Loop to add as many players as intructed into ArrayList
             players.add(new Player());
         }
     }
 
+    /**
+     * This method has been made to a new deck/ decks
+     * 
+     * @param n The number of new decks
+     */
     public static void create_decks(int n) {
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {// Loop to add as many decks as intructed into ArrayList
             decks.add(new Deck());
         }
     }
 
+    /**
+     * This method has been made to retreive files that are to be used in a deck
+     * 
+     * @return Either the deck's address or null
+     */
     public static String get_file() {
         try {
             var reader = new BufferedReader(new InputStreamReader(System.in));
@@ -55,6 +65,13 @@ public class CardGame {
         return null;
     }
 
+    /**
+     * This method ensures that all decks have the right number of cards within them
+     * 
+     * @param s
+     * @param n
+     * @return
+     */
     public static boolean validate_deck(String s, int n) {
         var f = new File(s);
         try {
@@ -78,6 +95,14 @@ public class CardGame {
         return false;
     }
 
+    /**
+     * This method is used to retreive the number of players in a game
+     * 
+     * @return The number of players in a game
+     * @throws IOException           Exception used to access data from files
+     * @throws NumberFormatException Exception used to convert a string into a
+     *                               numerical data type
+     */
     public static int get_players() throws IOException, NumberFormatException {
         var reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Number of players:");
@@ -92,6 +117,12 @@ public class CardGame {
         return 0;
     }
 
+    /**
+     * 
+     * @param s
+     * @param n
+     * @throws IOException
+     */
     public static void deal_cards(String s, int n) throws IOException {
         // must pass file parameter
         File f = new File(s);
