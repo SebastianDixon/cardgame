@@ -15,7 +15,7 @@ public class PlayerGenerator {
      * AtomicInteger is private final static so it can't be changed anywhere and
      * call only be called within this class
      */
-    private final static AtomicInteger counter = new AtomicInteger();
+    private static final AtomicInteger counter = new AtomicInteger();
 
     /**
      * This is a method to reteive a Players ID.

@@ -19,14 +19,18 @@ public class Player extends Thread {
     private volatile boolean gameOver = false;
     private File player_file;
 
+    public Player() {
+        this.playerId = PlayerGenerator.getId();
+    }
+
     public void run() {
-        // logPlayer("Player " + this.playerId + " has joined the game");
-        // logPlayer("player " + this.playerId + " initial hand is " + this);
+        logPlayer("Player " + this.playerId + " has joined the game");
+        logPlayer("player " + this.playerId + " initial hand is " + this);
         boolean won = checkWon();
     }
 
     /**
-     * This method is used to check if a has won
+     * This method is used to check if a player has won
      * 
      * @return true or false
      */
@@ -67,7 +71,7 @@ public class Player extends Thread {
 
     public int remove_card() {
         int removed = 0;
-        /**
+        /*
          * This loop goes through all of a players cards and if a cards ID doesn't match
          * the
          * Players then it is removed
@@ -103,4 +107,11 @@ public class Player extends Thread {
      * }
      * 
      */
+
+    private void logPlayer(String s) {
+        System.out.println(s);
+        Logger.writeNewLine(player_file, s);
+    }
+
+
 }

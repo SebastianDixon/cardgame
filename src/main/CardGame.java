@@ -11,19 +11,12 @@ import java.util.Scanner;
  * @author Sebastian Dixon and Joshua Adebayo
  */
 public class CardGame {
-    // Volatile so value can be different when on diffrent threads
+
     private volatile boolean gameOver = false;
-
-    /**
-     * Using ArrayLists so we can add and remove items from the list.
-     * Made to be public static final so they can be accessed from outside the class
-     * however,
-     * their contents can't be changed.
-     */
-
-    public static final ArrayList<Player> players = new ArrayList<>();
-
-    public static final ArrayList<Deck> decks = new ArrayList<>();
+    public Thread[] threads;
+    public int numPlayers;
+    public final ArrayList<Player> players = new ArrayList<>();
+    public final ArrayList<Deck> decks = new ArrayList<>();
 
     /**
      * This method has been made to create a player/players and add them to the
@@ -31,7 +24,7 @@ public class CardGame {
      * 
      * @param n The number of players being created
      */
-    public static void create_players(int n) {
+    public void create_players(int n) {
         for (int i = 0; i < n; i++) { // Loop to add as many players as intructed into ArrayList
             players.add(new Player());
         }
@@ -42,7 +35,7 @@ public class CardGame {
      * 
      * @param n The number of new decks
      */
-    public static void create_decks(int n) {
+    public void create_decks(int n) {
         for (int i = 0; i < n; i++) {// Loop to add as many decks as intructed into ArrayList
             decks.add(new Deck());
         }
@@ -53,7 +46,7 @@ public class CardGame {
      * 
      * @return Either the deck's address or null
      */
-    public static String get_file() {
+    public String get_file() {
         try {
             var reader = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Deck address:");
@@ -65,14 +58,7 @@ public class CardGame {
         return null;
     }
 
-    /**
-     * This method ensures that all decks have the right number of cards within them
-     * 
-     * @param s
-     * @param n
-     * @return
-     */
-    public static boolean validate_deck(String s, int n) {
+    public boolean validate_deck(String s, int n) {
         var f = new File(s);
         try {
             var br = new BufferedReader(new FileReader(f));
@@ -96,14 +82,14 @@ public class CardGame {
     }
 
     /**
-     * This method is used to retreive the number of players in a game
+     * This method is used to retrieve the number of players in a game
      * 
      * @return The number of players in a game
      * @throws IOException           Exception used to access data from files
      * @throws NumberFormatException Exception used to convert a string into a
      *                               numerical data type
      */
-    public static int get_players() throws IOException, NumberFormatException {
+    public int get_players() throws IOException, NumberFormatException {
         var reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Number of players:");
         String str = reader.readLine();
@@ -117,13 +103,7 @@ public class CardGame {
         return 0;
     }
 
-    /**
-     * 
-     * @param s
-     * @param n
-     * @throws IOException
-     */
-    public static void deal_cards(String s, int n) throws IOException {
+    public void deal_cards(String s, int n) throws IOException {
         // must pass file parameter
         File f = new File(s);
         Scanner sc = new Scanner(f);
@@ -149,7 +129,7 @@ public class CardGame {
 
     }
 
-    public static void setup() throws IOException {
+    public void setup() throws IOException {
         String s = get_file();
         int n = get_players();
         boolean b = validate_deck(s, n);
@@ -162,7 +142,7 @@ public class CardGame {
         }
     }
 
-    public static void pickup_card(Player p) {
+    public void pickup_card(Player p) {
         for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId()) {
                 p.addCard(d.get_cards().get(0));
@@ -170,7 +150,7 @@ public class CardGame {
         }
     }
 
-    public static void remove_card(Player p) {
+    public void remove_card(Player p) {
         int n = p.remove_card();
         for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId() + 1) {
@@ -179,7 +159,23 @@ public class CardGame {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public void startGame() throws IOException {
         setup();
+        threads = new Thread[numPlayers];
+
+        for (int i = 0; i < numPlayers; i++) {
+            Thread thread = new Thread(players.get(i));
+            threads[i] = thread;
+        }
+
+        for (Thread t: threads) {
+            t.start();
+        }
+
+    }
+
+    public static void main(String[] args) throws IOException {
+        CardGame newgame = new CardGame();
+        newgame.startGame();
     }
 }
