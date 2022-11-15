@@ -4,26 +4,55 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Cardgame class.
+ * This class is where all the rules of the card gane are encoded
+ * 
+ * @author Sebastian Dixon and Joshua Adebayo
+ */
 public class CardGame {
+    // Volatile so value can be different when on diffrent threads
     private volatile boolean gameOver = false;
+
+    /**
+     * Using ArrayLists so we can add and remove items from the list.
+     * Made to be public static final so they can be accessed from outside the class
+     * however,
+     * their contents can't be changed.
+     */
 
     public static final ArrayList<Player> players = new ArrayList<>();
 
     public static final ArrayList<Deck> decks = new ArrayList<>();
 
+    /**
+     * This method has been made to create a player/players and add them to the
+     * players ArrayList
+     * 
+     * @param n The number of players being created
+     */
     public static void create_players(int n) {
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) { // Loop to add as many players as intructed into ArrayList
             players.add(new Player());
         }
     }
 
+    /**
+     * This method has been made to a new deck/ decks
+     * 
+     * @param n The number of new decks
+     */
     public static void create_decks(int n) {
-        for (int i = 0;i < n; i++) {
-            decks.add(new
-                    Deck());
+        for (int i = 0; i < n; i++) {// Loop to add as many decks as intructed into ArrayList
+            decks.add(new Deck());
         }
     }
 
+    /**
+     * This method has been made to retreive files that are to be used in a deck
+     * 
+     * @return Either the deck's address or null
+     */
     public static String get_file() {
         try {
             var reader = new BufferedReader(new InputStreamReader(System.in));
@@ -36,6 +65,13 @@ public class CardGame {
         return null;
     }
 
+    /**
+     * This method ensures that all decks have the right number of cards within them
+     * 
+     * @param s
+     * @param n
+     * @return
+     */
     public static boolean validate_deck(String s, int n) {
         var f = new File(s);
         try {
@@ -59,6 +95,14 @@ public class CardGame {
         return false;
     }
 
+    /**
+     * This method is used to retreive the number of players in a game
+     * 
+     * @return The number of players in a game
+     * @throws IOException           Exception used to access data from files
+     * @throws NumberFormatException Exception used to convert a string into a
+     *                               numerical data type
+     */
     public static int get_players() throws IOException, NumberFormatException {
         var reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Number of players:");
@@ -73,6 +117,12 @@ public class CardGame {
         return 0;
     }
 
+    /**
+     * 
+     * @param s
+     * @param n
+     * @throws IOException
+     */
     public static void deal_cards(String s, int n) throws IOException {
         // must pass file parameter
         File f = new File(s);
@@ -113,7 +163,7 @@ public class CardGame {
     }
 
     public static void pickup_card(Player p) {
-        for (Deck d: decks) {
+        for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId()) {
                 p.addCard(d.get_cards().get(0));
             }
@@ -122,7 +172,7 @@ public class CardGame {
 
     public static void remove_card(Player p) {
         int n = p.remove_card();
-        for (Deck d: decks) {
+        for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId() + 1) {
                 d.addCard(n);
             }

@@ -2,10 +2,13 @@ package main;
 
 import java.io.File;
 import java.util.ArrayList;
+
 /**
  * Player class.
  * This class generates a Player, which has its own unique ID.
- * There's an ArrayList of cards and methods to add or remove cards.
+ * There's an ArrayList of cards and methods to add or remove cards. And
+ * finally, to check if
+ * a player has won
  *
  * @author Sebastian Dixon and Joshua Adebayo
  */
@@ -17,12 +20,18 @@ public class Player extends Thread {
     private File player_file;
 
     public void run() {
-        //logPlayer("Player " + this.playerId + " has joined the game");
-        //logPlayer("player " + this.playerId + " initial hand is " + this);
+        // logPlayer("Player " + this.playerId + " has joined the game");
+        // logPlayer("player " + this.playerId + " initial hand is " + this);
         boolean won = checkWon();
     }
 
+    /**
+     * This method is used to check if a has won
+     * 
+     * @return true or false
+     */
     public boolean checkWon() {
+        // The loop checks if all the players cards are the same or not
         for (int i : cards) {
             if (i != this.getPlayerId()) {
                 return false;
@@ -88,11 +97,10 @@ public class Player extends Thread {
         return cards;
     }
     /*
-    private void logPlayer(String s) {
-        System.out.println(s);
-        Logger.writeNewLine(player_file, s);
-    }
-
+     * private void logPlayer(String s) {
+     * System.out.println(s);
+     * Logger.writeNewLine(player_file, s);
+     * }
+     * 
      */
 }
-

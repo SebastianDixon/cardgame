@@ -3,6 +3,7 @@ package main;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * PlayerGenerator class.
  * This is a class which will be used to assign each player a unique ID within
  * the Player constructor
  * 

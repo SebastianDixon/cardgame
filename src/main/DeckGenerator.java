@@ -3,6 +3,7 @@ package main;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * DeckGenerator class
  * This is a class whhich will be used to assign each card with a unique ID
  * within
  * the Deck constructor
