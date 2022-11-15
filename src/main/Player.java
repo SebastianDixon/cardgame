@@ -20,7 +20,7 @@ public class Player extends Thread {
     private File player_file;
 
     public Player() {
-        this.playerId = PlayerGenerator.getId();
+        this.playerId = PlayerGenerator.getId(); 
     }
 
     public void run() {
