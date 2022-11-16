@@ -21,11 +21,17 @@ public class Player extends Thread {
 
     public Player() {
         this.playerId = PlayerGenerator.getId();
+        this.player_file = new File("player" + playerId + "_output.txt");
+
     }
 
+    @Override
     public void run() {
         logPlayer("Player " + this.playerId + " has joined the game");
         logPlayer("player " + this.playerId + " initial hand is " + this);
+
+        System.out.println("Player " + this.playerId + " has joined the game");
+        System.out.println("player " + this.playerId + " initial hand is " + this.toString());
         boolean won = checkWon();
     }
 

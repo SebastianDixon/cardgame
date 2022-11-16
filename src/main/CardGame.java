@@ -121,12 +121,6 @@ public class CardGame {
                 d.addCard(num);
             }
         }
-
-        for (int i = 0; i < n; i++) {
-            System.out.println("player" + players.get(i).getPlayerId() + '\t' + players.get(i).toString());
-            System.out.println("deck" + decks.get(i).getDeckId() + '\t' + decks.get(i).toString());
-        }
-
     }
 
     public void setup() throws IOException {
@@ -166,6 +160,16 @@ public class CardGame {
         for (int i = 0; i < numPlayers; i++) {
             Thread thread = new Thread(players.get(i));
             threads[i] = thread;
+        }
+
+        // create directory from Logger.create_directory
+        // use string input from the name of the player
+        // create player member variable for its name and playerId
+
+        for (Player p:players) {
+            String name = "player";
+            name = name + p.getPlayerId();
+            Logger.createDirectory(name);
         }
 
         for (Thread t: threads) {
