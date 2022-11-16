@@ -142,7 +142,7 @@ public class CardGame {
         }
     }
 
-    public void pickup_card(Player p) {
+    public void add_card(Player p) {
         for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId()) {
                 p.addCard(d.get_cards().get(0));

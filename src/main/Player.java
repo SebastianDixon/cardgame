@@ -20,7 +20,7 @@ public class Player extends Thread {
     private File player_file;
 
     public Player() {
-        this.playerId = PlayerGenerator.getId(); 
+        this.playerId = PlayerGenerator.getId();
     }
 
     public void run() {
@@ -87,16 +87,16 @@ public class Player extends Thread {
     }
 
     /**
-     * ToString to output the imporant data within a class,
+     * ToString to output the important data within a class,
      *
      * @return All the cards are returned but as strings
      */
 
     public String toString() {
-        // This proccess allows us to output the cards as a string
+        // This process allows us to output the cards as a string
         String cards = "";
         for (Integer i : this.cards) {
-            cards = cards + i + " "; // Put parenthases around each integer in the cards ArrayList
+            cards = cards + i + " "; // Put parentheses around each integer in the cards ArrayList
         }
         return cards;
     }
