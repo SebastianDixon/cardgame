@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -10,10 +11,10 @@ import java.util.ArrayList;
  * @author Joshua Adebayo and Sebastian Dixon
  */
 public class Deck {
-    private final int deckId; // Final so it can't be changed ever
+    private int deckId;
+    private ArrayList<Integer> cards = new ArrayList<>();
+    private File outputFile;
 
-    // Using an ArrayList so we can add and remove items from the list
-    private final ArrayList<Integer> cards = new ArrayList<>();
 
     /**
      * This is a constructor for a Deck.
@@ -22,7 +23,8 @@ public class Deck {
      */
 
     public Deck() {
-        deckId = DeckGenerator.getId();
+        this.deckId = DeckGenerator.getId();
+        this.outputFile = new File("deck" + deckId + "_output.txt");
     }
 
     /**
@@ -31,7 +33,15 @@ public class Deck {
      * @param n The number of cards being added, this must be an integer
      */
     public void addCard(int n) {
-        cards.add(n);
+        this.cards.add(n);
+    }
+
+    public void removeCard(int n) {
+        for (int i = 0; i < cards.size(); i++) {
+            if (n == cards.get(i)) {
+                cards.remove(i);
+            }
+        }
     }
 
     /**
@@ -45,7 +55,7 @@ public class Deck {
     }
 
     /**
-     * This is a method to retreive the cards within a deck
+     * This is a method to retrieve the cards within a deck
      * 
      * @return The ArrayList of cards that's in a deck
      */

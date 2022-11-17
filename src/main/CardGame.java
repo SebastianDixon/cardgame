@@ -140,6 +140,7 @@ public class CardGame {
         for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId()) {
                 p.addCard(d.get_cards().get(0));
+                d.removeCard(d.get_cards().get(0));
             }
         }
     }
@@ -155,6 +156,7 @@ public class CardGame {
 
     public void startGame() throws IOException {
         setup();
+
         threads = new Thread[numPlayers];
 
         for (int i = 0; i < numPlayers; i++) {
@@ -162,14 +164,8 @@ public class CardGame {
             threads[i] = thread;
         }
 
-        // create directory from Logger.create_directory
-        // use string input from the name of the player
-        // create player member variable for its name and playerId
-
         for (Player p:players) {
-            String name = "player";
-            name = name + p.getPlayerId();
-            Logger.createDirectory(name);
+            Logger.createDirectory(p.getPlayer_file());
         }
 
         for (Thread t: threads) {
