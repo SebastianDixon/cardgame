@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CardGameTest {
     @Test
     public void TestAddCard() {
-        var p = new Player();
+        var cg = new CardGame();
+
+        var p = new Player(cg);
         p.addCard(1);
         p.addCard(1);
         p.addCard(1);
@@ -17,7 +19,6 @@ public class CardGameTest {
         d.addCard(2);
         d.addCard(5);
 
-        var cg = new CardGame();
         cg.players.add(p);
         cg.decks.add(d);
 
@@ -30,10 +31,10 @@ public class CardGameTest {
 
     @Test
     public void TestRemoveCard() {
-        var p = new Player();
+        var cg = new CardGame();
+        var p = new Player(cg);
         var d = new Deck();
         var d2 = new Deck();
-        var cg = new CardGame();
 
         p.addCard(1);
         p.addCard(1);

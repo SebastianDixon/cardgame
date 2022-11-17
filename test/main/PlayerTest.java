@@ -8,7 +8,8 @@ public class PlayerTest {
     @Test
     void TestAddSingle() {
         int card = 1;
-        var p1 = new Player();
+        var cg = new CardGame();
+        var p1 = new Player(cg);
         p1.addCard(card);
         assertEquals("1 ",p1.toString());
     }
@@ -17,7 +18,9 @@ public class PlayerTest {
     void TestAddMultiple() {
         int c1 = 1;
         int c2 = 2;
-        var p2 = new Player();
+        var cg = new CardGame();
+
+        var p2 = new Player(cg);
         p2.addCard(c1);
         p2.addCard(c2);
         assertEquals("1 2 ", p2.toString());
@@ -25,13 +28,18 @@ public class PlayerTest {
 
     @Test
     void TestWinningCondition() {
-        var p = new Player();
+        var cg = new CardGame();
+
+        var p = new Player(cg);
         p.addCard(1);
         p.addCard(1);
         p.addCard(1);
         p.addCard(1);
 
-        boolean won = p.checkWon();
-        assertEquals(won, true);
+        boolean check = p.checkWon();
+
+        String output = p.logOutput.get(0);
+        assertEquals(output, "player1 wins");
+        assertEquals(check, true);
     }
 }

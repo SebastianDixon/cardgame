@@ -1,9 +1,12 @@
 package main;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
+/*
  * Player class.
  * This class generates a Player, which has its own unique ID.
  * There's an ArrayList of cards and methods to add or remove cards. And
@@ -13,33 +16,97 @@ import java.util.ArrayList;
  * @author Sebastian Dixon and Joshua Adebayo
  */
 
-public class Player extends Thread {
+public class Player implements Runnable {
     private int playerId;
     private ArrayList<Integer> cards = new ArrayList<>();
+    public ArrayList<String> logOutput = new ArrayList<>();
     private volatile boolean gameOver = false;
-    private String player_file;
+    private File player_file;
+    private CardGame game;
+    public int turns;
 
-    public Player() {
+    public Player(CardGame game) {
         this.playerId = PlayerGenerator.getId();
-        this.player_file = "player" + playerId + "_output.txt";
-
-    }
-
-    public String getPlayer_file() {
-        return player_file;
+        this.player_file = new File("player" + playerId + "_output.txt");
+        this.game = game;
     }
 
     @Override
     public void run() {
-        logPlayer("Player " + this.playerId + " has joined the game");
-        logPlayer("player " + this.playerId + " initial hand is " + this);
 
-        System.out.println("Player " + this.playerId + " has joined the game");
-        System.out.println("player " + this.playerId + " initial hand is " + this);
-        boolean won = checkWon();
+
+        setupFile();
+        checkWon();
+
+        while (game.running.get()) {
+            takeTurn();
+        }
+
+        synchronized (this) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int max_turns = game.turnsTotal;
+
+        while (turns < max_turns) {
+            takeTurn();
+        }
+
+        if (this == game.winner) {
+            System.out.println("player" + playerId + "won");
+        }
+        else {
+            logOutput.add(
+                    "player" + game.winner.playerId +
+                            " has informed player" + playerId +
+                            " that player" + game.winner.playerId + " has won");
+        }
+
     }
 
-    /**
+    public void endOfGame() {
+        logOutput.add("player" + playerId + " exits");
+        logOutput.add(this.toString());
+        //writeToFile();
+    }
+
+
+    public void setupFile() {
+        logOutput.add("player" + playerId + " initial hand: " + this);
+    }
+
+    private void writeToFile() {
+        try {
+            PrintStream out = new PrintStream(player_file);
+            for (String s : logOutput) {
+                out.println(s);
+            }
+            out.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void takeTurn() {
+        for (Deck d: game.decks) {
+            if (d.getDeckId() == this.playerId) {
+                Deck sameId = d;
+            }
+            if (d.getDeckId() == this.playerId + 1) {
+                Deck nextId = d;
+            }
+        }
+
+
+    }
+
+    /*
      * This method is used to check if a player has won
      * 
      * @return true or false
@@ -51,20 +118,20 @@ public class Player extends Thread {
                 return false;
             }
         }
+        logOutput.add("player" + playerId + " wins");
         return true;
     }
 
-    /**
+    /*
      * This is a method to add items to the ArrayList cards.
      *
      * @param n The number of cards being added, this must be an integer
      */
-
     public void addCard(int n) {
         cards.add(n);
     }
 
-    /**
+    /*
      * This is a method to get a Players ID
      *
      * @return A players unique ID
@@ -73,12 +140,11 @@ public class Player extends Thread {
         return playerId;
     }
 
-    /**
+    /*
      * This is a method to remove a card from the cards ArrayList
      *
      * @return the card that is removed is outputted
      */
-
     public int remove_card() {
         for (int i = 0; i < cards.size(); i++) {
             int n = cards.get(i);
@@ -90,12 +156,11 @@ public class Player extends Thread {
         return 0;
     }
 
-    /**
+    /*
      * ToString to output the important data within a class,
      *
      * @return All the cards are returned but as strings
      */
-
     public String toString() {
         // This process allows us to output the cards as a string
         String cards = "";
@@ -104,19 +169,5 @@ public class Player extends Thread {
         }
         return cards;
     }
-    /*
-     * private void logPlayer(String s) {
-     * System.out.println(s);
-     * Logger.writeNewLine(player_file, s);
-     * }
-     * 
-     */
-
-    private void logPlayer(String s) {
-        System.out.println(s);
-        File f = new File(player_file);
-        Logger.writeNewLine(f, s);
-    }
-
 
 }

@@ -7,7 +7,9 @@ public class PlayerGeneratorTest {
 
     @Test
     void TestStartId() {
-        var p1 = new Player();
+        var cg = new CardGame();
+
+        var p1 = new Player(cg);
         assertEquals(1, p1.getPlayerId());
     }
 

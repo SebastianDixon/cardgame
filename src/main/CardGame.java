@@ -3,6 +3,8 @@ package main;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Cardgame class.
@@ -13,12 +15,19 @@ import java.util.Scanner;
 public class CardGame {
 
     private volatile boolean gameOver = false;
+
     public Thread[] threads;
     public int numPlayers;
     public final ArrayList<Player> players = new ArrayList<>();
     public final ArrayList<Deck> decks = new ArrayList<>();
+    public Player winner = null;
+    public AtomicBoolean running = new AtomicBoolean(true);
+    public AtomicInteger numFinished = new AtomicInteger(0);
 
-    /**
+
+    public int turnsTotal;
+
+    /*
      * This method has been made to create a player/players and add them to the
      * players ArrayList
      * 
@@ -26,11 +35,11 @@ public class CardGame {
      */
     public void create_players(int n) {
         for (int i = 0; i < n; i++) { // Loop to add as many players as intructed into ArrayList
-            players.add(new Player());
+            players.add(new Player(this));
         }
     }
 
-    /**
+    /*
      * This method has been made to a new deck/ decks
      * 
      * @param n The number of new decks
@@ -41,7 +50,7 @@ public class CardGame {
         }
     }
 
-    /**
+    /*
      * This method has been made to retreive files that are to be used in a deck
      * 
      * @return Either the deck's address or null
@@ -57,6 +66,7 @@ public class CardGame {
         }
         return null;
     }
+
 
     public boolean validate_deck(String s, int n) {
         var f = new File(s);
@@ -81,7 +91,7 @@ public class CardGame {
         return false;
     }
 
-    /**
+    /*
      * This method is used to retrieve the number of players in a game
      * 
      * @return The number of players in a game
@@ -103,6 +113,7 @@ public class CardGame {
         return 0;
     }
 
+
     public void deal_cards(String s, int n) throws IOException {
         // must pass file parameter
         File f = new File(s);
@@ -123,6 +134,7 @@ public class CardGame {
         }
     }
 
+
     public void setup() throws IOException {
         String s = get_file();
         int n = get_players();
@@ -136,6 +148,7 @@ public class CardGame {
         }
     }
 
+
     public void add_card(Player p) {
         for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId()) {
@@ -144,6 +157,7 @@ public class CardGame {
             }
         }
     }
+
 
     public void remove_card(Player p) {
         int n = p.remove_card();
@@ -154,28 +168,34 @@ public class CardGame {
         }
     }
 
+
     public void startGame() throws IOException {
         setup();
 
         threads = new Thread[numPlayers];
 
+        turnsTotal = 0;
+        numFinished.set(0);
+
         for (int i = 0; i < numPlayers; i++) {
             Thread thread = new Thread(players.get(i));
             threads[i] = thread;
+            thread.start();
         }
 
-        for (Player p:players) {
-            Logger.createDirectory(p.getPlayer_file());
+        for (Player p: players) {
+            synchronized (p){
+                p.notify();
+            }
         }
 
-        for (Thread t: threads) {
-            t.start();
-        }
 
     }
+
 
     public static void main(String[] args) throws IOException {
         CardGame newgame = new CardGame();
         newgame.startGame();
     }
+
 }
