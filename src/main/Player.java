@@ -33,8 +33,6 @@ public class Player implements Runnable {
 
     @Override
     public void run() {
-
-
         setupFile();
         checkWon();
 
@@ -68,10 +66,11 @@ public class Player implements Runnable {
 
     }
 
+
     public void endOfGame() {
         logOutput.add("player" + playerId + " exits");
         logOutput.add(this.toString());
-        //writeToFile();
+        writeFile();
     }
 
 
@@ -79,7 +78,8 @@ public class Player implements Runnable {
         logOutput.add("player" + playerId + " initial hand: " + this);
     }
 
-    private void writeToFile() {
+
+    private void writeFile() {
         try {
             PrintStream out = new PrintStream(player_file);
             for (String s : logOutput) {
