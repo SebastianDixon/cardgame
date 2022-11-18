@@ -146,6 +146,10 @@ public class CardGame {
         } else {
             System.out.println("Invalid deck");
         }
+
+        for (Player p:players) {
+            System.out.println(p.getPlayerId() + " : "  + p.toString());
+        }
     }
 
 
@@ -177,11 +181,16 @@ public class CardGame {
         turnsTotal = 0;
         numFinished.set(0);
 
+        System.out.println("step 1");
+
         for (int i = 0; i < numPlayers; i++) {
             Thread thread = new Thread(players.get(i));
             threads[i] = thread;
             thread.start();
         }
+
+
+        System.out.println("step 2");
 
         for (Player p: players) {
             synchronized (p){
@@ -189,7 +198,18 @@ public class CardGame {
             }
         }
 
+        System.out.println("step 3");
 
+        while (numFinished.get() != players.size()) {
+
+        }
+
+        System.out.println("step 4");
+
+
+        for (Deck d:decks) {
+            d.writeFile();
+        }
     }
 
 

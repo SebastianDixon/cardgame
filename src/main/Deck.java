@@ -1,6 +1,8 @@
 package main;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +16,8 @@ public class Deck {
     private int deckId;
     private ArrayList<Integer> cards = new ArrayList<>();
     private File outputFile;
+    public ArrayList<String> logOutput = new ArrayList<>();
+    private File deck_file;
 
 
     /**
@@ -69,6 +73,20 @@ public class Deck {
      * 
      * @return All the cards are returned but as strings
      */
+
+    public void writeFile() {
+        try {
+            PrintStream out = new PrintStream(deck_file);
+            for (String s : logOutput) {
+                out.println(s);
+            }
+            out.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public String toString() {
         // This proccess allows us to output the cards as a string
