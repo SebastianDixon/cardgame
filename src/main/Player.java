@@ -34,7 +34,16 @@ public class Player implements Runnable {
     @Override
     public void run() {
         setupFile();
-        checkWon();
+        if (checkWon() && game.running.get()) {
+            game.winner = this;
+            game.running.set(false);
+            logOutput.add("player"+playerId+" wins");
+        }
+        else {
+            String currentHand = "player"+playerId+" "+ this.toString();
+            logOutput.add(currentHand);
+            writeFile();
+        }
 
         while (game.running.get()) {
             takeTurn();
@@ -94,16 +103,26 @@ public class Player implements Runnable {
 
 
     public void takeTurn() {
+        Deck sameId = null;
         for (Deck d: game.decks) {
             if (d.getDeckId() == this.playerId) {
-                Deck sameId = d;
-            }
-            if (d.getDeckId() == this.playerId + 1) {
-                Deck nextId = d;
+                sameId = d;
             }
         }
 
-
+        assert sameId != null;
+        if (!sameId.get_cards().isEmpty()) {
+            if (sameId.lock.tryLock()) {    // lock prevents starvation
+                //take card
+                game.add_card(this);
+                //place card in next deck
+                game.remove_card(this);
+                //increment turns taken
+                turns += 1;
+                //unlock sameId deck
+                sameId.lock.unlock();
+            }
+        }
     }
 
     /*

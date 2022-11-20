@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
+/*
  * Cardgame class.
  * This class is where all the rules of the card gane are encoded
  * 

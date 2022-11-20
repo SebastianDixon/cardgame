@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Deck class.
@@ -18,9 +19,9 @@ public class Deck {
     private File outputFile;
     public ArrayList<String> logOutput = new ArrayList<>();
     private File deck_file;
+    public ReentrantLock lock;
 
-
-    /**
+    /*
      * This is a constructor for a Deck.
      * deckID is set in the DeckGenerator class and is assigned in this
      * constructor
@@ -29,9 +30,10 @@ public class Deck {
     public Deck() {
         this.deckId = DeckGenerator.getId();
         this.outputFile = new File("deck" + deckId + "_output.txt");
+        this.lock = new ReentrantLock();
     }
 
-    /**
+    /*
      * This is a method to add items to the ArrayList cards
      * 
      * @param n The number of cards being added, this must be an integer
@@ -48,7 +50,7 @@ public class Deck {
         }
     }
 
-    /**
+    /*
      * This is a method to get a decks ID
      * 
      * @return A decks unique ID
@@ -58,7 +60,7 @@ public class Deck {
         return deckId;
     }
 
-    /**
+    /*
      * This is a method to retrieve the cards within a deck
      * 
      * @return The ArrayList of cards that's in a deck
@@ -67,12 +69,6 @@ public class Deck {
     public ArrayList<Integer> get_cards() {
         return this.cards;
     }
-
-    /**
-     * ToString to output the imporant data within a class,
-     * 
-     * @return All the cards are returned but as strings
-     */
 
     public void writeFile() {
         try {
@@ -87,6 +83,11 @@ public class Deck {
         }
     }
 
+    /*
+     * ToString to output the imporant data within a class,
+     *
+     * @return All the cards are returned but as strings
+     */
 
     public String toString() {
         // This proccess allows us to output the cards as a string
