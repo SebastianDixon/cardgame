@@ -3,6 +3,8 @@ Multi-threaded card game for ECM2414 module coursework
 
 ## To setup the test suite:
 
+Using JUnit 5.8.1
+
 1.  First, download the latest version of JUnit, referred to below as junit.zip.
 
 2.  Then install JUnit on your platform of choice:
