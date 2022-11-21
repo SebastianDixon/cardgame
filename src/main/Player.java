@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /*
  * Player class.
@@ -23,7 +22,8 @@ public class Player implements Runnable {
     private volatile boolean gameOver = false;
     private File player_file;
     private CardGame game;
-    public int turns;
+    public int turnsTaken;
+    public int turnsLeft;
 
     public Player(CardGame game) {
         this.playerId = PlayerGenerator.getId();
@@ -58,9 +58,8 @@ public class Player implements Runnable {
             }
         }
 
-        int max_turns = game.turnsTotal;
 
-        while (turns < max_turns) {
+        while (turnsTaken < turnsLeft) {
             takeTurn();
         }
 
@@ -132,8 +131,11 @@ public class Player implements Runnable {
                 //place card in next deck
                 game.remove_card(this);
                 //increment turns taken
-                turns += 1;
+                turnsTaken += 1;
                 //unlock sameId deck
+
+                checkWon();
+
                 sameId.lock.unlock();
             }
         }

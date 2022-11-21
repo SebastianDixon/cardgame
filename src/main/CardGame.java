@@ -193,9 +193,10 @@ public class CardGame {
                 t.start();
             }
 
+            //LOOK HERE
             for (Player p:players) {
-                if (p.turns > turnsTotal) {
-                    this.turnsTotal = p.turns;
+                if (p.turnsTaken > turnsTotal) {
+                    this.turnsTotal = p.turnsTaken;
                 }
             }
 
