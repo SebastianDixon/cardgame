@@ -193,14 +193,11 @@ public class CardGame {
                 t.start();
             }
 
-
             for (Player p:players) {
                 if (p.turns > turnsTotal) {
                     this.turnsTotal = p.turns;
                 }
             }
-
-            System.out.println("step 232435678");
 
             for (Player p: players) {
                 synchronized (p){
