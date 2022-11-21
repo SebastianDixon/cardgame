@@ -33,21 +33,21 @@ public class Player implements Runnable {
 
     @Override
     public void run() {
-        setupFile();
+        System.out.println(Thread.currentThread().getName()+"running");
+
+        this.setupFile();
+
         if (checkWon() && game.running.get()) {
             game.winner = this;
             game.running.set(false);
             logOutput.add("player"+playerId+" wins");
         }
-        else {
-            String currentHand = "player"+playerId+" "+ this.toString();
-            logOutput.add(currentHand);
-            writeFile();
-        }
 
         while (game.running.get()) {
             takeTurn();
         }
+
+        game.numFinished.incrementAndGet();
 
         synchronized (this) {
             try {
@@ -67,32 +67,45 @@ public class Player implements Runnable {
             System.out.println("player" + playerId + "won");
         }
         else {
-            logOutput.add(
-                    "player" + game.winner.playerId +
+            logOutput.add("player" + game.winner.playerId +
                             " has informed player" + playerId +
                             " that player" + game.winner.playerId + " has won");
         }
 
-    }
+        finalWriteToFile();
 
-
-    public void endOfGame() {
-        logOutput.add("player" + playerId + " exits");
-        logOutput.add(this.toString());
-        writeFile();
+        //increment number of finished players
     }
 
 
     public void setupFile() {
-        logOutput.add("player" + playerId + " initial hand: " + this);
+        String s = "player" + playerId + " initial hand: " + this.toString();
+        logOutput.add(s);
+        writeToFile();
     }
 
 
-    private void writeFile() {
+    public void finalWriteToFile() {
+        String s = "player" + playerId + " final hand: " + this.toString();
+        logOutput.add("player" + playerId + " exits");
+        logOutput.add(s);
+        writeToFile();
+    }
+
+
+    public void writeHandToFile() {
+        String s = "player" + playerId + " current hand: " + this.toString();
+        logOutput.add(s);
+        writeToFile();
+    }
+
+
+    public void writeToFile() {
         try {
             PrintStream out = new PrintStream(player_file);
             for (String s : logOutput) {
                 out.println(s);
+                System.out.println(s);
             }
             out.close();
         }
@@ -123,6 +136,8 @@ public class Player implements Runnable {
                 sameId.lock.unlock();
             }
         }
+
+        writeHandToFile();
     }
 
     /*

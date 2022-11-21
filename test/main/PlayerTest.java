@@ -42,4 +42,16 @@ public class PlayerTest {
         assertEquals(output, "player1 wins");
         assertEquals(check, true);
     }
+
+    @Test
+    void TestWriteToFile() {
+        var cg = new CardGame();
+        var p = new Player(cg);
+
+        p.logOutput.add("test");
+        p.logOutput.add("test2");
+
+        p.writeToFile();
+
+    }
 }

@@ -114,22 +114,19 @@ public class CardGame {
     }
 
 
-    public void deal_cards(String s, int n) throws IOException {
-        // must pass file parameter
+    public void deal_cards(String s) throws IOException {
         File f = new File(s);
         Scanner sc = new Scanner(f);
 
         for (int j = 0; j < 4; j++) {
             for (Player p : players) {
-                int num = Integer.parseInt(sc.nextLine());
-                p.addCard(num);
+                p.addCard(Integer.parseInt(sc.nextLine()));
             }
         }
 
-        while (sc.hasNextLine()) {
+        for (int i = 0; i < 4; i++) {
             for (Deck d : decks) {
-                int num = Integer.parseInt(sc.nextLine());
-                d.addCard(num);
+                d.addCard(Integer.parseInt(sc.nextLine()));
             }
         }
     }
@@ -138,17 +135,18 @@ public class CardGame {
     public void setup() throws IOException {
         String s = get_file();
         int n = get_players();
+        numPlayers = n;
         boolean b = validate_deck(s, n);
         if (b) {
             create_players(n);
             create_decks(n);
-            deal_cards(s, n);
+            deal_cards(s);
         } else {
             System.out.println("Invalid deck");
         }
 
         for (Player p:players) {
-            System.out.println(p.getPlayerId() + " : "  + p.toString());
+            System.out.println(p.getPlayerId() + " : "  + p);
         }
     }
 
@@ -170,6 +168,10 @@ public class CardGame {
                 d.addCard(n);
             }
         }
+
+        if (p.getPlayerId() == numPlayers) {
+            decks.get(0).addCard(n);
+        }
     }
 
 
@@ -177,7 +179,6 @@ public class CardGame {
         setup();
 
         threads = new Thread[numPlayers];
-
         turnsTotal = 0;
         numFinished.set(0);
 
@@ -186,25 +187,34 @@ public class CardGame {
         for (int i = 0; i < numPlayers; i++) {
             Thread thread = new Thread(players.get(i));
             threads[i] = thread;
-            thread.start();
         }
 
+        for (Thread t: threads) {
+            t.start();
+        }
+
+
+        for (Player p:players) {
+            if (p.turns > turnsTotal) {
+                this.turnsTotal = p.turns;
+            }
+        }
 
         System.out.println("step 2");
 
         for (Player p: players) {
             synchronized (p){
-                p.notify();
+                p.notifyAll();
             }
         }
 
         System.out.println("step 3");
 
+        /*
         while (numFinished.get() != players.size()) {
 
         }
-
-        System.out.println("step 4");
+        */
 
 
         for (Deck d:decks) {

@@ -16,7 +16,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Deck {
     private int deckId;
     private ArrayList<Integer> cards = new ArrayList<>();
-    private File outputFile;
     public ArrayList<String> logOutput = new ArrayList<>();
     private File deck_file;
     public ReentrantLock lock;
@@ -26,10 +25,9 @@ public class Deck {
      * deckID is set in the DeckGenerator class and is assigned in this
      * constructor
      */
-
     public Deck() {
         this.deckId = DeckGenerator.getId();
-        this.outputFile = new File("deck" + deckId + "_output.txt");
+        this.deck_file = new File("deck" + deckId + "_output.txt");
         this.lock = new ReentrantLock();
     }
 
@@ -41,6 +39,7 @@ public class Deck {
     public void addCard(int n) {
         this.cards.add(n);
     }
+
 
     public void removeCard(int n) {
         for (int i = 0; i < cards.size(); i++) {
@@ -55,7 +54,6 @@ public class Deck {
      * 
      * @return A decks unique ID
      */
-
     public int getDeckId() {
         return deckId;
     }
@@ -65,12 +63,14 @@ public class Deck {
      * 
      * @return The ArrayList of cards that's in a deck
      */
-
     public ArrayList<Integer> get_cards() {
         return this.cards;
     }
 
+
     public void writeFile() {
+        logOutput.add("Cards in deck: " + this);
+
         try {
             PrintStream out = new PrintStream(deck_file);
             for (String s : logOutput) {
@@ -84,11 +84,10 @@ public class Deck {
     }
 
     /*
-     * ToString to output the imporant data within a class,
+     * ToString to output the important data within a class,
      *
      * @return All the cards are returned but as strings
      */
-
     public String toString() {
         // This proccess allows us to output the cards as a string
         String cards = "";
