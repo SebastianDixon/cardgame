@@ -196,6 +196,8 @@ public class Player implements Runnable {
      *
      * @return All the cards are returned but as strings
      */
+
+    @Override
     public String toString() {
         // This process allows us to output the cards as a string
         String cards = "";
