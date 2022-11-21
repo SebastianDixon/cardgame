@@ -1,1 +1,11 @@
 Cards in deck: 9 11 13 15 
+Cards in deck: 11 13 15 
+Cards in deck: 11 13 15 4 
+Cards in deck: 13 15 4 
+Cards in deck: 15 4 
+Cards in deck: 15 4 6 
+Cards in deck: 15 4 6 8 
+Cards in deck: 15 4 6 8 10 
+Cards in deck: 15 4 6 8 10 12 
+Cards in deck: 15 4 6 8 10 12 14 
+Cards in deck: 15 4 6 8 10 12 14 16 

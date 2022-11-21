@@ -156,6 +156,7 @@ public class CardGame {
             if (d.getDeckId() == p.getPlayerId()) {
                 p.addCard(d.get_cards().get(0));
                 d.removeCard(d.get_cards().get(0));
+                d.writeFile();
             }
         }
     }
@@ -166,11 +167,14 @@ public class CardGame {
         for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId() + 1) {
                 d.addCard(n);
+                d.writeFile();
             }
         }
 
         if (p.getPlayerId() == numPlayers) {
-            decks.get(0).addCard(n);
+            Deck d = decks.get(0);
+            d.addCard(n);
+            d.writeFile();
         }
     }
 

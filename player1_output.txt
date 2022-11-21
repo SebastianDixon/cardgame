@@ -1,1 +1,3 @@
 player1 initial hand: 1 3 5 7 
+player1 current hand: 1 5 7 9 
+player1 current hand: 1 7 9 11 
