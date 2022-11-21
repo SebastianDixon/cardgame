@@ -13,9 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Sebastian Dixon and Joshua Adebayo
  */
 public class CardGame {
-
-    private volatile boolean gameOver = false;
-
     public Thread[] threads;
     public int numPlayers;
     public final ArrayList<Player> players = new ArrayList<>();
@@ -45,7 +42,7 @@ public class CardGame {
      * @param n The number of new decks
      */
     public void create_decks(int n) {
-        for (int i = 0; i < n; i++) {// Loop to add as many decks as intructed into ArrayList
+        for (int i = 0; i < n; i++) {// Loop to add as many decks as instructed into ArrayList
             decks.add(new Deck());
         }
     }
@@ -181,49 +178,49 @@ public class CardGame {
 
     public void startGame() throws IOException {
         setup();
-
         threads = new Thread[numPlayers];
         turnsTotal = 0;
         numFinished.set(0);
 
-        System.out.println("step 1");
 
         for (int i = 0; i < numPlayers; i++) {
             Thread thread = new Thread(players.get(i));
             threads[i] = thread;
         }
 
-        for (Thread t: threads) {
-            t.start();
-        }
-
-
-        for (Player p:players) {
-            if (p.turns > turnsTotal) {
-                this.turnsTotal = p.turns;
+        while (this.running.get()) {
+            for (Thread t: threads) {
+                t.start();
             }
-        }
 
-        System.out.println("step 2");
 
-        for (Player p: players) {
-            synchronized (p){
-                p.notifyAll();
+            for (Player p:players) {
+                if (p.turns > turnsTotal) {
+                    this.turnsTotal = p.turns;
+                }
             }
+
+            System.out.println("step 232435678");
+
+            for (Player p: players) {
+                synchronized (p){
+                    p.notify();
+                }
+            }
+
+            /*
+            while (numFinished.get() != players.size()) {
+
+            }
+            */
+
+            this.running.set(false);
         }
-
-        System.out.println("step 3");
-
-        /*
-        while (numFinished.get() != players.size()) {
-
-        }
-        */
-
 
         for (Deck d:decks) {
             d.writeFile();
         }
+
     }
 
 

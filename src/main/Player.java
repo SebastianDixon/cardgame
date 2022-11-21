@@ -41,6 +41,7 @@ public class Player implements Runnable {
             game.winner = this;
             game.running.set(false);
             logOutput.add("player"+playerId+" wins");
+            writeToFile();
         }
 
         while (game.running.get()) {

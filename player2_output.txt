@@ -1,12 +1,1 @@
-player2 initial hand: 2 4 6 8 
-player2 current hand: 2 6 8 10 
-player2 current hand: 2 8 10 12 
-player2 current hand: 2 10 12 14 
-player2 current hand: 2 12 14 16 
-player2 current hand: 2 14 16 3 
-player2 current hand: 2 16 3 5 
-player2 current hand: 2 3 5 7 
-player2 current hand: 2 3 5 7 
-player2 current hand: 2 3 5 7 
-player2 current hand: 2 3 5 7 
-player2 current hand: 2 3 5 7 
+player2 initial hand: 1 1 1 1 

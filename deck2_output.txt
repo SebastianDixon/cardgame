@@ -1,10 +1,1 @@
-Cards in deck: 10 12 14 16 
-Cards in deck: 10 12 14 16 3 
-Cards in deck: 12 14 16 3 
-Cards in deck: 12 14 16 3 5 
-Cards in deck: 14 16 3 5 7 
-Cards in deck: 16 3 5 7 
-Cards in deck: 3 5 7 
-Cards in deck: 5 7 
-Cards in deck: 7 
-Cards in deck: 
+Cards in deck: 1 1 1 1 
