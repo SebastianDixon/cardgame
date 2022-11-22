@@ -1,2 +1,0 @@
-player1 initial hand: 1 1 1 2 
-player1 current hand: 1 1 1 2 
