@@ -147,7 +147,7 @@ public class CardGame {
         }
     }
 
-
+// thread in player
     public void add_card(Player p) {
         for (Deck d : decks) {
             if (d.getDeckId() == p.getPlayerId()) {
