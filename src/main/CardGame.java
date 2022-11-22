@@ -20,14 +20,12 @@ public class CardGame {
     public Player winner = null;
     public AtomicBoolean running = new AtomicBoolean(true);
     public AtomicInteger numFinished = new AtomicInteger(0);
-
-
     public int turnsTotal;
 
-    /*
+    /**
      * This method has been made to create a player/players and add them to the
      * players ArrayList
-     * 
+     *
      * @param n The number of players being created
      */
     public void create_players(int n) {
@@ -36,9 +34,9 @@ public class CardGame {
         }
     }
 
-    /*
+    /**
      * This method has been made to a new deck/ decks
-     * 
+     *
      * @param n The number of new decks
      */
     public void create_decks(int n) {
@@ -47,10 +45,10 @@ public class CardGame {
         }
     }
 
-    /*
-     * This method has been made to retreive files that are to be used in a deck
-     * 
-     * @return Either the deck's address or null
+    /**
+     * This method has been made to retreive files that are to be used in a deck.
+     *
+     * @return null
      */
     public String get_file() {
         try {
@@ -64,7 +62,15 @@ public class CardGame {
         return null;
     }
 
-
+    /**
+     * Boolean method to check the validity of a deck by reading in the file in then
+     * checking how
+     * many lines it has.
+     *
+     * @param s String holding the deck
+     * @param n The number of people playing in the game.
+     * @return false
+     */
     public boolean validate_deck(String s, int n) {
         var f = new File(s);
         try {
@@ -88,13 +94,14 @@ public class CardGame {
         return false;
     }
 
-    /*
+    /**
      * This method is used to retrieve the number of players in a game
-     * 
+     *
      * @return The number of players in a game
-     * @throws IOException           Exception used to access data from files
+     * @throws IOException           IOException Exception used to access data from
+     *                               files
      * @throws NumberFormatException Exception used to convert a string into a
-     *                               numerical data type
+     *                               numerica ldata type
      */
     public int get_players() throws IOException, NumberFormatException {
         var reader = new BufferedReader(new InputStreamReader(System.in));
@@ -110,7 +117,16 @@ public class CardGame {
         return 0;
     }
 
-
+    /**
+     * This method is used to deal the cards, i.e distributing the equal number
+     * cards to
+     * each player
+     *
+     * @param s A number n string form so that is being turned into a file in order
+     *          to be added to a player through the addCard method
+     * @throws IOException Exeption used to access the file ,f, which contains a
+     *                     card
+     */
     public void deal_cards(String s) throws IOException {
         File f = new File(s);
         Scanner sc = new Scanner(f);
@@ -128,7 +144,11 @@ public class CardGame {
         }
     }
 
-
+    /**
+     * Method used to set up a game by collecting the needed data to create a game
+     *
+     * @throws IOException Exception needed to access data within files
+     */
     public void setup() throws IOException {
         String s = get_file();
         int n = get_players();
@@ -147,7 +167,11 @@ public class CardGame {
         }
     }
 
-
+    /**
+     * Method to start the game of cards with all the players
+     *
+     * @throws IOException
+     */
     public void startGame() throws IOException {
         setup();
         threads = new Thread[numPlayers];
@@ -158,34 +182,27 @@ public class CardGame {
         for (int i = 0; i < numPlayers; i++) {
             Thread thread = new Thread(players.get(i));
             threads[i] = thread;
+            thread.start();
         }
 
-        while (this.running.get()) {
-            for (Thread t: threads) {
-                t.start();
+        for (Player p:players) {
+            if (p.turnsTaken > turnsTotal) {
+                turnsTotal = p.turnsTaken;
             }
-
-            //LOOK HERE
-            for (Player p:players) {
-                if (p.turnsTaken > turnsTotal) {
-                    this.turnsTotal = p.turnsTaken;
-                }
-            }
-
-            for (Player p: players) {
-                synchronized (p){
-                    p.notify();
-                }
-            }
-
-            /*
-            while (numFinished.get() != players.size()) {
-
-            }
-            */
-
-            this.running.set(false);
         }
+
+        for (Player p: players) {
+            synchronized (p){
+                p.notify();
+            }
+        }
+
+        /*
+        while (numFinished.get() != players.size()) {
+
+        }
+        */
+
 
         for (Deck d:decks) {
             d.writeFile();

@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-/*
+/**
  * Player class.
  * This class generates a Player, which has its own unique ID.
  * There's an ArrayList of cards and methods to add or remove cards. And
- * finally, to check if
- * a player has won
+ * finally, to check if a player has won
+ *
  *
  * @author Sebastian Dixon and Joshua Adebayo
  */
@@ -23,14 +23,21 @@ public class Player implements Runnable {
     private File player_file;
     private CardGame game;
     public int turnsTaken;
-    public int turnsLeft;
 
+    /**
+     * This is the constructor for the Player class
+     *
+     * @param game The game a player is being added to
+     */
     public Player(CardGame game) {
         this.playerId = PlayerGenerator.getId();
         this.player_file = new File("player" + playerId + "_output.txt");
         this.game = game;
     }
 
+    /**
+     * Method to run the game and tell the users of the progress of the game
+     */
     @Override
     public void run() {
         System.out.println(Thread.currentThread().getName()+"running");
@@ -44,24 +51,19 @@ public class Player implements Runnable {
             writeToFile();
         }
 
-        while (game.running.get()) {
-            takeTurn();
-        }
+        while (game.turnsTotal >= 0) {
+            synchronized (this) {
+                takeTurn();
 
-        game.numFinished.incrementAndGet();
-
-        synchronized (this) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
-
-        while (turnsTaken < turnsLeft) {
-            takeTurn();
-        }
+        game.numFinished.incrementAndGet();
 
         if (this == game.winner) {
             System.out.println("player" + playerId + "won");
@@ -77,14 +79,22 @@ public class Player implements Runnable {
         //increment number of finished players
     }
 
-
+    /**
+     * This method is used to create a file for a player containng all the
+     * information about the
+     * player, this is added to the log.
+     */
     public void setupFile() {
         String s = "player" + playerId + " initial hand: " + this.toString();
         logOutput.add(s);
         writeToFile();
     }
 
-
+    /**
+     * This method is used to log the complete hand of a player once it has all 4
+     * cards needed to
+     * play.
+     */
     public void finalWriteToFile() {
         String s = "player" + playerId + " final hand: " + this.toString();
         logOutput.add("player" + playerId + " exits");
@@ -92,14 +102,18 @@ public class Player implements Runnable {
         writeToFile();
     }
 
-
+    /**
+     * Method used to log the updated hand of a player after a round.
+     */
     public void writeHandToFile() {
         String s = "player" + playerId + " current hand: " + this.toString();
         logOutput.add(s);
         writeToFile();
     }
 
-
+    /**
+     * This method is used to add all the written logs into a file.
+     */
     public void writeToFile() {
         try {
             PrintStream out = new PrintStream(player_file);
@@ -114,6 +128,9 @@ public class Player implements Runnable {
         }
     }
 
+    /**
+     * This method is used to add cards to player, then remove it from the deck.
+     */
     public void deck_add_card() {
         for (Deck d : game.decks) {
             if (d.getDeckId() == playerId) {
@@ -124,6 +141,9 @@ public class Player implements Runnable {
         }
     }
 
+    /**
+     * This method is used to add cards to decks, then remove it from the player.
+     */
     public void deck_remove_card() {
         int n = remove_card();
         for (Deck d : game.decks) {
@@ -140,7 +160,9 @@ public class Player implements Runnable {
         }
     }
 
-
+    /**
+     * This method is used to check if a deck's id is the same as it's players'.
+     */
     public void takeTurn() {
         Deck sameId = null;
         for (Deck d: game.decks) {
@@ -168,9 +190,9 @@ public class Player implements Runnable {
         writeHandToFile();
     }
 
-    /*
+    /**
      * This method is used to check if a player has won
-     * 
+     *
      * @return true or false
      */
     public boolean checkWon() {
@@ -181,10 +203,11 @@ public class Player implements Runnable {
             }
         }
         logOutput.add("player" + playerId + " wins");
+        game.running.set(false);
         return true;
     }
 
-    /*
+    /**
      * This is a method to add items to the ArrayList cards.
      *
      * @param n The number of cards being added, this must be an integer
@@ -193,8 +216,8 @@ public class Player implements Runnable {
         cards.add(n);
     }
 
-    /*
-     * This is a method to get a Players ID
+    /**
+     * This is a method to get a Player's ID.
      *
      * @return A players unique ID
      */
@@ -202,8 +225,8 @@ public class Player implements Runnable {
         return playerId;
     }
 
-    /*
-     * This is a method to remove a card from the cards ArrayList
+    /**
+     * This is a method to remove a card from the cards ArrayList.
      *
      * @return the card that is removed is outputted
      */
@@ -218,12 +241,11 @@ public class Player implements Runnable {
         return 0;
     }
 
-    /*
-     * ToString to output the important data within a class,
+    /**
+     * ToString to output the important data within a class.
      *
      * @return All the cards are returned but as strings
      */
-
     @Override
     public String toString() {
         // This process allows us to output the cards as a string
