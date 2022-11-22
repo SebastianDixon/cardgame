@@ -114,6 +114,32 @@ public class Player implements Runnable {
         }
     }
 
+    public void deck_add_card() {
+        for (Deck d : game.decks) {
+            if (d.getDeckId() == playerId) {
+                addCard(d.get_cards().get(0));
+                d.removeCard(d.get_cards().get(0));
+                d.writeFile();
+            }
+        }
+    }
+
+    public void deck_remove_card() {
+        int n = remove_card();
+        for (Deck d : game.decks) {
+            if (d.getDeckId() == playerId + 1) {
+                d.addCard(n);
+                d.writeFile();
+            }
+        }
+
+        if (playerId == game.numPlayers) {
+            Deck d = game.decks.get(0);
+            d.addCard(n);
+            d.writeFile();
+        }
+    }
+
 
     public void takeTurn() {
         Deck sameId = null;
@@ -127,13 +153,12 @@ public class Player implements Runnable {
         if (!sameId.get_cards().isEmpty()) {
             if (sameId.lock.tryLock()) {    // lock prevents starvation
                 //take card
-                game.add_card(this);
+                deck_add_card();
                 //place card in next deck
-                game.remove_card(this);
+                deck_remove_card();
                 //increment turns taken
                 turnsTaken += 1;
                 //unlock sameId deck
-
                 checkWon();
 
                 sameId.lock.unlock();

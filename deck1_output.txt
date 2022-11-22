@@ -1,1 +1,1 @@
-Cards in deck: 9 11 13 15 
+Cards in deck: 2 2 2 2 

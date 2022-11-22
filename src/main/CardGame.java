@@ -147,34 +147,6 @@ public class CardGame {
         }
     }
 
-// thread in player
-    public void add_card(Player p) {
-        for (Deck d : decks) {
-            if (d.getDeckId() == p.getPlayerId()) {
-                p.addCard(d.get_cards().get(0));
-                d.removeCard(d.get_cards().get(0));
-                d.writeFile();
-            }
-        }
-    }
-
-
-    public void remove_card(Player p) {
-        int n = p.remove_card();
-        for (Deck d : decks) {
-            if (d.getDeckId() == p.getPlayerId() + 1) {
-                d.addCard(n);
-                d.writeFile();
-            }
-        }
-
-        if (p.getPlayerId() == numPlayers) {
-            Deck d = decks.get(0);
-            d.addCard(n);
-            d.writeFile();
-        }
-    }
-
 
     public void startGame() throws IOException {
         setup();

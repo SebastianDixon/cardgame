@@ -22,7 +22,7 @@ public class CardGameTest {
         cg.players.add(p);
         cg.decks.add(d);
 
-        cg.add_card(p);
+        p.deck_add_card();
 
         assertEquals(p.toString(), "1 1 1 5 2 ");
         assertEquals(d.toString(), "5 ");
@@ -48,7 +48,7 @@ public class CardGameTest {
         cg.decks.add(d);
         cg.decks.add(d2);
 
-        cg.remove_card(p);
+        p.deck_remove_card();
 
         assertEquals(p.toString(), "1 1 1 9 ");
         assertEquals(d2.toString(), "2 5 ");
