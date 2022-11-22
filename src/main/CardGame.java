@@ -75,9 +75,6 @@ public class CardGame {
         }
     }
 
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
     public String get_file() {
         try {
@@ -92,10 +89,7 @@ public class CardGame {
     }
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     public boolean validate_deck(String s, int n) {
@@ -122,7 +116,6 @@ public class CardGame {
     }
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
     /*
      * This method is used to retrieve the number of players in a game
      * 
@@ -132,9 +125,6 @@ public class CardGame {
      *                               numerical data type
      */
     public int get_players() throws IOException, NumberFormatException {
-=======
-    public void get_players() throws IOException, NumberFormatException {
->>>>>>> Stashed changes
 =======
     public void get_players() throws IOException, NumberFormatException {
 >>>>>>> Stashed changes
@@ -151,12 +141,9 @@ public class CardGame {
     }
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
     public void deal_cards(String s) throws IOException {
 =======
-=======
->>>>>>> Stashed changes
     public void deal_cards(String s, int n) throws IOException {
         // must pass file parameter
 >>>>>>> Stashed changes
@@ -176,7 +163,6 @@ public class CardGame {
         }
     }
 
-<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
     public void setup() throws IOException {
@@ -199,17 +185,6 @@ public class CardGame {
             create_decks(numPlayers);
             deal_cards(s, numPlayers);
 >>>>>>> Stashed changes
-=======
-    public void setup() throws IOException {
-        String s = get_file();
-        get_players();
-        System.out.println(numPlayers);
-        boolean b = validate_deck(s, numPlayers);
-        if (b) {
-            create_players(numPlayers);
-            create_decks(numPlayers);
-            deal_cards(s, numPlayers);
->>>>>>> Stashed changes
         } else {
             System.out.println("Invalid deck");
         }
@@ -220,13 +195,10 @@ public class CardGame {
     }
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
     public void add_card(Player p) {
         for (Deck d : decks) {
 =======
-=======
->>>>>>> Stashed changes
     public void pickup_card(Player p) {
         for (Deck d: decks) {
 >>>>>>> Stashed changes
@@ -239,10 +211,7 @@ public class CardGame {
     }
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     public void remove_card(Player p) {
@@ -262,7 +231,6 @@ public class CardGame {
     }
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
     public void startGame() throws IOException {
         setup();
@@ -271,21 +239,15 @@ public class CardGame {
         numFinished.set(0);
 
 =======
-=======
->>>>>>> Stashed changes
     public void startGame() throws IOException {
         setup();
 
         threads = new Thread[numPlayers];
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
 
         for (int i = 0; i < numPlayers; i++) {
             Thread thread = new Thread(players.get(i));
             threads[i] = thread;
-<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         }
 
@@ -321,8 +283,6 @@ public class CardGame {
         }
 
 =======
-=======
->>>>>>> Stashed changes
             thread.start();
         }
 
@@ -331,9 +291,6 @@ public class CardGame {
     public static void main(String[] args) throws IOException {
         CardGame newgame = new CardGame();
         newgame.startGame();
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
     }
 

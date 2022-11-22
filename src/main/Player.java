@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class Player implements Runnable {
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
     private int playerId;
     private ArrayList<Integer> cards = new ArrayList<>();
     public ArrayList<String> logOutput = new ArrayList<>();
@@ -32,8 +31,6 @@ public class Player implements Runnable {
         this.player_file = new File("player" + playerId + "_output.txt");
         this.game = game;
 =======
-=======
->>>>>>> Stashed changes
     private final int playerId;
     private final ArrayList<Integer> cards = new ArrayList<>();
     private final boolean gameOver = false;
@@ -42,15 +39,11 @@ public class Player implements Runnable {
     public Player() {
         this.playerId = PlayerGenerator.getId();
         this.player_file = new File("game_output/player" + playerId + "_output.txt");
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
     }
 
     @Override
     public void run() {
-<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         System.out.println(Thread.currentThread().getName()+"running");
 
@@ -101,12 +94,6 @@ public class Player implements Runnable {
         String s = "player" + playerId + " initial hand: " + this.toString();
         logOutput.add(s);
         writeToFile();
-=======
-        logPlayer("Player " + this.playerId + " has joined the game");
-        logPlayer("player " + this.playerId + " initial hand is " + this);
-        System.out.println("Player " + this.playerId + " has joined the game");
-        System.out.println("player " + this.playerId + " initial hand is " + this);
->>>>>>> Stashed changes
     }
 
 
@@ -252,22 +239,14 @@ public class Player implements Runnable {
         return cards;
     }
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
 =======
-=======
->>>>>>> Stashed changes
 
     private void logPlayer(String s) {
         System.out.println(s);
         Logger.writeNewLine(player_file, s);
     }
 
-<<<<<<< Updated upstream
-=======
-
-}
->>>>>>> Stashed changes
 
 >>>>>>> Stashed changes
 }
