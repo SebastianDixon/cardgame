@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Sebastian Dixon and Joshua Adebayo
  */
 public class CardGame {
+<<<<<<< Updated upstream
     public Thread[] threads;
     public int numPlayers;
     public final ArrayList<Player> players = new ArrayList<>();
