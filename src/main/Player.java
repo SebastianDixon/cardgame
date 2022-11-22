@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 
 public class Player implements Runnable {
-<<<<<<< Updated upstream
     private int playerId;
     private ArrayList<Integer> cards = new ArrayList<>();
     public ArrayList<String> logOutput = new ArrayList<>();
@@ -30,21 +29,10 @@ public class Player implements Runnable {
         this.playerId = PlayerGenerator.getId();
         this.player_file = new File("player" + playerId + "_output.txt");
         this.game = game;
-=======
-    private final int playerId;
-    private final ArrayList<Integer> cards = new ArrayList<>();
-    private final boolean gameOver = false;
-    private final File player_file;
-
-    public Player() {
-        this.playerId = PlayerGenerator.getId();
-        this.player_file = new File("game_output/player" + playerId + "_output.txt");
->>>>>>> Stashed changes
     }
 
     @Override
     public void run() {
-<<<<<<< Updated upstream
         System.out.println(Thread.currentThread().getName()+"running");
 
         this.setupFile();
@@ -109,12 +97,6 @@ public class Player implements Runnable {
         String s = "player" + playerId + " current hand: " + this.toString();
         logOutput.add(s);
         writeToFile();
-=======
-        logPlayer("Player " + this.playerId + " has joined the game");
-        logPlayer("player " + this.playerId + " initial hand is " + this);
-        System.out.println("Player " + this.playerId + " has joined the game");
-        System.out.println("player " + this.playerId + " initial hand is " + this);
->>>>>>> Stashed changes
     }
 
 
@@ -201,21 +183,9 @@ public class Player implements Runnable {
      * @return the card that is removed is outputted
      */
     public int remove_card() {
-<<<<<<< Updated upstream
         for (int i = 0; i < cards.size(); i++) {
             int n = cards.get(i);
             if (n != playerId) {
-=======
-        int removed = 0;
-        /*
-         * This loop goes through all of a players cards and if a cards ID doesn't match
-         * the
-         * Players then it is removed
-         */
-        for (int i = 0; i < 4; i++) {
-            if (cards.get(i) != playerId) {
-                removed = cards.get(i);
->>>>>>> Stashed changes
                 cards.remove(i);
                 return n;
             }
@@ -238,15 +208,5 @@ public class Player implements Runnable {
         }
         return cards;
     }
-<<<<<<< Updated upstream
 
-=======
-
-    private void logPlayer(String s) {
-        System.out.println(s);
-        Logger.writeNewLine(player_file, s);
-    }
-
-
->>>>>>> Stashed changes
 }

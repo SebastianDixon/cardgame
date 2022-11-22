@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardGameTest {
-<<<<<<< Updated upstream
     @Test
     public void TestAddCard() {
         var cg = new CardGame();
@@ -56,7 +55,4 @@ public class CardGameTest {
     }
 
 
-=======
-    // redo testing for cardgame
->>>>>>> Stashed changes
 }
